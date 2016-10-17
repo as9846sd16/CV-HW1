@@ -77,12 +77,27 @@
 % fprintf('Part 1. F. finished\n');
 %% Part 2. A. 
 oImg1 = imread('data/gasolFace.png');
-%oImg2 = imread('data/kobeFace.png');
-figure;imshow(oImg);
-[nImg, his] = lbp(oImg);
-figure;imshow(nImg);
-figure;bar(0:255, his);axis([0, 255, 0, max(his)]);
-set(gca, 'position', [0.1 0.1 0.8 0.4]);
+oImg2 = imread('data/kobeFace.png');
+nImg1 = lbp(oImg1);
+nImg2 = lbp(oImg2);
+figure;imshow(nImg1);imwrite(nImg1, 'result/gasolLbp.png');
+figure;imshow(nImg2);imwrite(nImg2, 'result/kobeLbp.png');
+fprintf('Part 2. A. finished\n');
+%% Part 2. B.
+hist1 = myHist(nImg1, 1);
+hist2 = myHist(nImg2, 1);
+faceSim = hist1*hist2';
+fprintf('face similarity = %f\n',faceSim);
+fprintf('Part 2. B. finished\n');
+%% Part 2. C.
+for i = [2,3,4,9,20]
+    hist1 = myHist(nImg1, i);
+    hist2 = myHist(nImg2, i);
+    faceSim = hist1*hist2';
+    fprintf('%2d * %2d cells, face similarity = %f\n', i,i,faceSim);
+end
+fprintf('Part 2. C. finished\n');
+%% Part 2. D. 
 table = zeros(1, 256);
 label = 1;
 for i = 0:255
@@ -94,3 +109,24 @@ for i = 0:255
         table(i+1) = 0;
     end
 end
+table = uint8(table);
+figure;imshow(nImg1);
+uImg1 = ulbp(nImg1, table);
+uImg2 = ulbp(nImg2, table);
+x = im2uint8((im2double(uImg1)*256)./59);
+figure;imshow(x);
+fprintf('Part 2. D. finisehd\n');
+%% Part 2. E.
+uhist1 = myHist(uImg1, 1);
+uhist2 = myHist(uImg2, 1);
+ufaceSim = uhist1*uhist2';
+fprintf('uniform LBP face similarity = %f\n',ufaceSim);
+fprintf('Part 2. E. finished\n');
+%% Part 2. F.
+for i = [2,3,4,9,20]
+    uhist1 = myHist(uImg1, i);
+    uhist2 = myHist(uImg2, i);
+    ufaceSim = uhist1*uhist2';
+    fprintf('uniform LBP %2d * %2d cells, face similarity = %f\n', i,i,ufaceSim);
+end
+fprintf('Part 2. F. finished\n');
