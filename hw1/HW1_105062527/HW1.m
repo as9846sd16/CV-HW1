@@ -51,64 +51,56 @@ fprintf('Part 1. C. finished\n');
 [nsImg35] = nonMaxSup(sImg35, dirG3hImg, 3);
 [nsImg93] = nonMaxSup(sImg93, dirG9hImg, 3);
 [nsImg95] = nonMaxSup(sImg95, dirG9hImg, 3);
-figure('Name', 'nsImg33', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg33));
-imwrite(plotCorner(oImg, nsImg33), 'result/nsImg33.png');
-figure('Name', 'nsImg35', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg35));
-imwrite(plotCorner(oImg, nsImg35), 'result/nsImg35.png');
-figure('Name', 'nsImg93', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg93));
-imwrite(plotCorner(oImg, nsImg93), 'result/nsImg93.png');
-figure('Name', 'nsImg95', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg95));
-imwrite(plotCorner(oImg, nsImg95), 'result/nsImg95.png');
+figure('Name', 'nsImg33', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg33, 255, 255, 255, true));
+imwrite(plotCorner(oImg, nsImg33, 255, 255, 255, true), 'result/nsImg33.png');
+figure('Name', 'nsImg35', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg35, 255, 255, 255, true));
+imwrite(plotCorner(oImg, nsImg35, 255, 255, 255, true), 'result/nsImg35.png');
+figure('Name', 'nsImg93', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg93, 255, 255, 255, true));
+imwrite(plotCorner(oImg, nsImg93, 255, 255, 255, true), 'result/nsImg93.png');
+figure('Name', 'nsImg95', 'NumberTitle', 'off');imshow(plotCorner(oImg, nsImg95, 255, 255, 255, true));
+imwrite(plotCorner(oImg, nsImg95, 255, 255, 255, true), 'result/nsImg95.png');
 fprintf('Part 1. D. finished\n');
-%% Part 1. E. rotate 30 degree and scale to 0.5x, then apply 1.A to 1.D
-nImg = imrotate(oImg, 30);
-nImg = imresize(nImg, 0.5);
-%1.A
-g3hImg = imfilter(nImg, gaussian_5s3h);
-g9hImg = imfilter(nImg, gaussian_5s9h);
-%1.B
-grayG3hImg = rgb2gray(g3hImg);
-[magG3hImg, d3X, d3Y, dirG3hImg] = SobelMask(grayG3hImg);
-grayG9hImg = rgb2gray(g9hImg);
-[magG9hImg, d9X, d9Y, dirG9hImg] = SobelMask(grayG9hImg);
-%1.C
-[sImg33] = sCorner(grayG3hImg, d3X, d3Y, 3);
-[sImg35] = sCorner(grayG3hImg, d3X, d3Y, 5);
-[sImg93] = sCorner(grayG9hImg, d9X, d9Y, 3);
-[sImg95] = sCorner(grayG9hImg, d9X, d9Y, 5);
-%1.D
-[nsImg33D] = nonMaxSup(sImg33, dirG3hImg, 3);
-[nsImg35D] = nonMaxSup(sImg35, dirG3hImg, 3);
-[nsImg93D] = nonMaxSup(sImg93, dirG9hImg, 3);
-[nsImg95D] = nonMaxSup(sImg95, dirG9hImg, 3);
-figure('Name', 'nsImg33D', 'NumberTitle', 'off');imshow(plotCorner(nImg, nsImg33D));
-imwrite(plotCorner(nImg, nsImg33D), 'result/nsImg33D.png');
-figure('Name', 'nsImg35D', 'NumberTitle', 'off');imshow(plotCorner(nImg, nsImg35D));
-imwrite(plotCorner(nImg, nsImg35D), 'result/nsImg35D.png');
-figure('Name', 'nsImg93D', 'NumberTitle', 'off');imshow(plotCorner(nImg, nsImg93D));
-imwrite(plotCorner(nImg, nsImg93D), 'result/nsImg93D.png');
-figure('Name', 'nsImg95D', 'NumberTitle', 'off');imshow(plotCorner(nImg, nsImg95D));
-imwrite(plotCorner(nImg, nsImg95D), 'result/nsImg95D.png');
-fprintf('Part 1. E. finished\n');
-%% Part 1. F.
+%% Part 1. E. rotate 30 degree and scale to 0.5x, then apply corner detection
 roImg = imrotate(oImg, 30);
 scImg = imresize(oImg, 0.5);
 %rotate 30 degree
-g9hImg = imfilter(roImg, gaussian_5s9h);
-grayG9hImg = rgb2gray(g9hImg);
-[magG9hImg, d9X, d9Y, dirG9hImg] = SobelMask(grayG9hImg);
-[sImg95] = sCorner(grayG9hImg, d9X, d9Y, 5);
-[nsImg95D] = nonMaxSup(sImg95, dirG9hImg, 3);
-figure('Name', 'roImg', 'NumberTitle', 'off');imshow(plotCorner(roImg, nsImg95D));
-imwrite(plotCorner(roImg, nsImg95D), 'result/roImg.png');
+g3hroImg = imfilter(roImg, gaussian_5s3h);
+grayG3hroImg = rgb2gray(g3hroImg);
+[magG3hroImg, d3roX, d3roY, dirG3hroImg] = SobelMask(grayG3hroImg);
+[sroImg33] = sCorner(grayG3hroImg, d3roX, d3roY, 3);
+[nsroImg33] = nonMaxSup(sroImg33, dirG3hroImg, 3);
+figure('Name', 'ro3Img', 'NumberTitle', 'off');imshow(plotCorner(roImg, nsroImg33, 255, 255, 255, true));
+imwrite(plotCorner(roImg, nsroImg33, 255, 255, 255, true), 'result/ro3Img.png');
+[sroImg35] = sCorner(grayG3hroImg, d3roX, d3roY, 5);
+[nsroImg35] = nonMaxSup(sroImg35, dirG3hroImg, 3);
+figure('Name', 'ro5Img', 'NumberTitle', 'off');imshow(plotCorner(roImg, nsroImg35, 255, 255, 255, true));
+imwrite(plotCorner(roImg, nsroImg35, 255, 255, 255, true), 'result/ro5Img.png');
 %scale to 0.5
-g9hImg = imfilter(scImg, gaussian_5s9h);
-grayG9hImg = rgb2gray(g9hImg);
-[magG9hImg, d9X, d9Y, dirG9hImg] = SobelMask(grayG9hImg);
-[sImg95] = sCorner(grayG9hImg, d9X, d9Y, 5);
-[nsImg95D] = nonMaxSup(sImg95, dirG9hImg, 3);
-figure('Name', 'scImg', 'NumberTitle', 'off');imshow(plotCorner(scImg, nsImg95D));
-imwrite(plotCorner(scImg, nsImg95D), 'result/scImg.png');
+g3hscImg = imfilter(scImg, gaussian_5s3h);
+grayG3hscImg = rgb2gray(g3hscImg);
+[magG3hscImg, d3scX, d3scY, dirG3hscImg] = SobelMask(grayG3hscImg);
+[sscImg33] = sCorner(grayG3hscImg, d3scX, d3scY, 3);
+[nsscImg33] = nonMaxSup(sscImg33, dirG3hscImg, 3);
+figure('Name', 'sc3Img', 'NumberTitle', 'off');imshow(plotCorner(scImg, nsscImg33, 255, 255, 255, true));
+imwrite(plotCorner(scImg, nsscImg33, 255, 255, 255, true), 'result/sc3Img.png');
+[sscImg35] = sCorner(grayG3hscImg, d3scX, d3scY, 5);
+[nsscImg35] = nonMaxSup(sscImg35, dirG3hscImg, 3);
+figure('Name', 'sc5Img', 'NumberTitle', 'off');imshow(plotCorner(scImg, nsscImg35, 255, 255, 255, true));
+imwrite(plotCorner(scImg, nsscImg35, 255, 255, 255, true), 'result/sc5Img.png');
+fprintf('Part 1. E. finished\n');
+%% Part 1. F.
+croImg = imrotate(nsroImg33, -30);
+orl = size(oImg, 1); ocl = size(oImg, 2);
+rrl = size(croImg, 1); rcl = size(croImg, 2);
+rl = (rrl-orl)/2; cl = (rcl-ocl)/2;
+croImg = croImg(rl:rl+orl-1, cl:cl+ocl-1);
+cscImg = imresize(nsscImg33, 2);
+cscImg(cscImg<200*mean(mean(cscImg))) = 0;
+compareImg = plotCorner(oImg, nsImg33, 255, 0, 255, true);
+compareImg = plotCorner(compareImg, croImg, 0, 255, 0, false);
+compareImg = plotCorner(compareImg, cscImg, 0, 0, 255, false);
+figure('Name', 'compareImg', 'NumberTitle', 'off');imshow(compareImg);
+imwrite(compareImg, 'result/compareImg.png');
 fprintf('Part 1. F. finished\n');
 %% Part 2. A. 
 oImg1 = imread('data/gasolFace.png');
