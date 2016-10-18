@@ -1,12 +1,10 @@
-function [img] = nonMaxSup(oImg, dir)
-    n = 7;
+function [img] = nonMaxSup(oImg, dir, n)
     id = floor(n/2);
     img = oImg;
     for i = id + 1 : size(oImg, 1) - id
         for j = id + 1 : size(oImg, 2) - id
             isPMax = true;
             p = oImg(i,j);
-            p1=[];p2=[];p3=[];p4=[];
             theta = dir(i,j) + pi/2;
             if(theta > pi)
                 theta = theta - 2*pi;
@@ -53,46 +51,7 @@ function [img] = nonMaxSup(oImg, dir)
             if~(isPMax)
                 img(i,j) = 0;
             end
-%             if(theta > -pi/4 && theta < pi/4) ||...
-%                theta > 3*pi/4 || theta < -3*pi/4
-%                 ratio = abs(tan(theta));
-%             else
-%                 ratio = abs(cot(theta));
-%             end
-%             %set p1
-%             if(theta >= 0 && theta < pi/2)
-%                 p1 = oImg(i-1, j+1);
-%                 p3 = oImg(i+1, j-1);
-%             elseif(theta >= pi/2)
-%                 p1 = oImg(i-1, j-1);
-%                 p3 = oImg(i+1, j+1);
-%             elseif(theta < 0 && theta >= -pi/2)
-%                 p1 = oImg(i+1, j+1);
-%                 p3 = oImg(i-1, j-1);
-%             else
-%                 p1 = oImg(i+1, j-1);
-%                 p3 = oImg(i-1, j+1);
-%             end
-%             %set p2
-%             if(theta >= -pi/4 && theta < pi/4)
-%                 p2 = oImg(i, j+1);
-%                 p4 = oImg(i, j-1);
-%             elseif(theta >= pi/4 && theta < 3*pi/4)
-%                 p2 = oImg(i-1, j);
-%                 p4 = oImg(i+1, j);
-%             elseif(theta > 3*pi/4 || theta < -3*pi/4)
-%                 p2 = oImg(i, j-1);
-%                 p4 = oImg(i, j+1);
-%             else
-%                 p2 = oImg(i+1, j);
-%                 p4 = oImg(i-1, j);
-%             end
-%             pp1 = p1*ratio + p2*(1-ratio);
-%             pp2 = p3*ratio + p4*(1-ratio);
-%             if ~(p > pp1 && p > pp2)
-%                 img(i,j) = 0;
-%             end
         end
     end
-    img(img< 200*mean(mean(img)))=0;
+    img(img< 150*mean(mean(img)))=0;
 end
